@@ -1,10 +1,8 @@
 from abc import ABC
 from abc import abstractmethod
-from typing import Sequence
 
-
-class Group(ABC):
-    def __init__(self, node, parent=None) -> None:
+class EntityGroup(ABC):
+    def __init__(self, node: object, parent=None) -> None:
         self.validate_node_type(node)
         self.members = []
         self.node = node
@@ -15,19 +13,28 @@ class Group(ABC):
         pass
 
     def add(self, member: object) -> None:
-        if not isinstance(member, Group):
-            member = self.__class__(member, parent=self)
+        if not isinstance(member, EntityGroup):
+            member = self.__class__(node=member, parent=self)
         self.members.append(member)
-    
+
+    @property
+    def uuid(self) -> str:
+        if self.parent:
+            return f"{self.parent.uuid}.{self.node.uuid}"
+        return self.node.uuid
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, self.__class__):
+            return False
+        return self.uuid == other.uuid
+
     def __str__(self, level: int = 0) -> str:
         indent = "  " * level
-        result = f"{indent}{self.node}\n"
-        for member in self.members:
-            result += member.__str__(level + 1)
-        return result
+        return f"{indent}{self.node}\n" + "".join(member.__str__(level + 1) for member in self.members)
 
 class Technology:
-    def __init__(self, name: str, abbreviation: str = None) -> None:
+    def __init__(self, uuid: str, name: str, abbreviation: str = None) -> None:
+        self.uuid = uuid
         self.name = name
         self.abbreviation = abbreviation
     
@@ -39,7 +46,7 @@ class Technology:
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, Technology):
             return False
-        return self.name == other.name and self.abbreviation == other.abbreviation
+        return self.uuid == other.uuid
     
     def __hash__(self) -> int:
-        return hash(self.name)
+        return hash(self.uuid)
