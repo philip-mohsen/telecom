@@ -26,19 +26,6 @@ class Group(ABC):
             result += member.__str__(level + 1)
         return result
 
-# class Group(ABC):
-#     def __init__(self) -> None:
-#         self.members = []
-
-#     @abstractmethod
-#     def add(self, member: object) -> None:
-#         pass
-    
-#     @staticmethod
-#     def validate_member_type(member: object, allowed_types: Sequence[type]) -> None:
-#         if not isinstance(member, allowed_types):
-#             raise InvalidGroupMemberTypeError(member, allowed_types)
-
 class Technology:
     def __init__(self, name: str, abbreviation: str = None) -> None:
         self.name = name
