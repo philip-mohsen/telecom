@@ -13,8 +13,9 @@ class EntityGroup(ABC):
         pass
 
     def add(self, member: object) -> None:
-        if not isinstance(member, EntityGroup):
+        if not isinstance(member, self.__class__):
             member = self.__class__(node=member, parent=self)
+        member.parent = self
         self.members.append(member)
 
     @property
