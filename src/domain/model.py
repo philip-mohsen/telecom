@@ -2,6 +2,7 @@ from __future__ import annotations
 from abc import ABC
 from abc import abstractmethod
 from typing import Union
+from exceptions import InvalidGroupMemberTypeError
 
 class Group(ABC):
     def __init__(self, name: str, members: list = None) -> None:
@@ -23,7 +24,10 @@ class Technology:
     
     def __hash__(self) -> int:
         return hash(self.name)
-    
+
 class TechnologyGroup(Group):
     def add(self, member: Union[TechnologyGroup, Technology]) -> None:
+        if not isinstance(member, (TechnologyGroup, Technology)):
+            raise InvalidGroupMemberTypeError(member, (TechnologyGroup, Technology))
+        
         self.members.append(member)
