@@ -15,7 +15,7 @@ Classification by area:
     init:{
         'theme': 'base',
         'themeVariables': {
-            'darkMode': 'false',
+            'darkMode': 'true',
             'fontFamily': 'Roboto',
         }
     }
