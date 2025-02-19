@@ -1,20 +1,43 @@
 from abc import ABC
 from abc import abstractmethod
 from typing import Sequence
-from exceptions import InvalidGroupMemberTypeError
+
 
 class Group(ABC):
-    def __init__(self) -> None:
+    def __init__(self, node, parent=None) -> None:
+        self.validate_node_type(node)
         self.members = []
+        self.node = node
+        self.parent = parent
 
     @abstractmethod
-    def add(self, member: object) -> None:
+    def validate_node_type(self, node: object) -> None:
         pass
+
+    def add(self, member: object) -> None:
+        if not isinstance(member, Group):
+            member = self.__class__(member, parent=self)
+        self.members.append(member)
     
-    @staticmethod
-    def validate_member_type(member: object, allowed_types: Sequence[type]) -> None:
-        if not isinstance(member, allowed_types):
-            raise InvalidGroupMemberTypeError(member, allowed_types)
+    def __str__(self, level: int = 0) -> str:
+        indent = "  " * level
+        result = f"{indent}{self.node}\n"
+        for member in self.members:
+            result += member.__str__(level + 1)
+        return result
+
+# class Group(ABC):
+#     def __init__(self) -> None:
+#         self.members = []
+
+#     @abstractmethod
+#     def add(self, member: object) -> None:
+#         pass
+    
+#     @staticmethod
+#     def validate_member_type(member: object, allowed_types: Sequence[type]) -> None:
+#         if not isinstance(member, allowed_types):
+#             raise InvalidGroupMemberTypeError(member, allowed_types)
 
 class Technology:
     def __init__(self, name: str, abbreviation: str = None) -> None:
