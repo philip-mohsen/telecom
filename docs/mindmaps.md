@@ -1,3 +1,9 @@
+## Table of Contents
+- [Technology](#technology)
+- [Services](#services)
+- [Devices](#devices)
+- [Price Structure](#price-structure)
+
 ## Technology
 Classification by area:
 - LAN (Local Area Network) - A small-scale network within a building or campus
@@ -32,6 +38,7 @@ mindmap
             (Nagra)
             (Older TV Platforms)
 ```
+
 ## Services
 From technologies point of view
 ```mermaid
@@ -82,6 +89,7 @@ mindmap
     (VAS - Value Added Service)
         (RBT - Ringback Tone)
 ```
+
 ## Devices
 ```mermaid
 mindmap
@@ -114,6 +122,7 @@ mindmap
         (Charges)
         (Protective Cases)
 ```
+
 ## Price structure
 ```mermaid
 mindmap
