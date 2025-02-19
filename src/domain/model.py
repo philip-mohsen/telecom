@@ -31,15 +31,15 @@ class Technology:
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, Technology):
             return False
-        return self.name == other.name
+        return self.name == other.name and self.abbreviation == other.abbreviation
     
     def __hash__(self) -> int:
         return hash(self.name)
 
 class TechnologyGroup(Group):
     def __init__(self, metadata: Technology) -> None:
-        self.validate_member_type(metadata, (Technology,))
         super().__init__()
+        self.validate_member_type(metadata, (Technology,))
         self.metadata = metadata
 
     def add(self, member: Union[TechnologyGroup, Technology]) -> None:
