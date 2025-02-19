@@ -5,6 +5,7 @@ Classification by area:
 - MAN (Metropolitan Area Network) - A city-wide network connecting multiple LANs
 - WAN (Wide Area Network) - A large-scale network spanning cities or countries
 ```mermaid
+%%{init:{'theme':'forest'}}%%
 mindmap
 (**Technology**)
     (Copper Network)
