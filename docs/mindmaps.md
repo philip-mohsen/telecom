@@ -9,7 +9,14 @@ Classification by area:
 - LAN (Local Area Network) - A small-scale network within a building or campus
 - MAN (Metropolitan Area Network) - A city-wide network connecting multiple LANs
 - WAN (Wide Area Network) - A large-scale network spanning cities or countries
+
 ```mermaid
+%%{
+    init:{
+        'theme': 'base',
+        'themeVariables': {'background': '#fff'}
+    }
+}%%
 mindmap
 (**Technology**)
     (Copper Network)
