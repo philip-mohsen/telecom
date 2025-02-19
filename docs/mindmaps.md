@@ -13,16 +13,18 @@ Classification by area:
 ```mermaid
 %%{
     init:{
-        'theme': 'base',
-        'themeVariables': {
-            'darkMode': 'true',
-            'fontFamily': 'Roboto',
+        "theme": "base",
+        "themeVariables": {
+            "primaryColor": "#e6c2b2",
+            "primaryTextColor": "#fff",
+            "fontFamily": 'Roboto,sans-serif'
         }
     }
 }%%
 mindmap
 (**Technology**)
     (Copper Network)
+        
         (POTS - Plain Old Telephone Service)
         (DSL - Digital Subscriber Line)
             (ADSL - Asymmetric DSL)
@@ -52,6 +54,16 @@ mindmap
 ## Services
 From technologies point of view
 ```mermaid
+%%{
+    init:{
+        "theme": "base",
+        "themeVariables": {
+            "primaryColor": "#e6c2b2",
+            "primaryTextColor": "#fff",
+            "fontFamily": 'Roboto,sans-serif'
+        }
+    }
+}%%
 mindmap
 (**Service**)
     (Voice)
@@ -102,6 +114,16 @@ mindmap
 
 ## Devices
 ```mermaid
+%%{
+    init:{
+        "theme": "base",
+        "themeVariables": {
+            "primaryColor": "#e6c2b2",
+            "primaryTextColor": "#fff",
+            "fontFamily": 'Roboto,sans-serif'
+        }
+    }
+}%%
 mindmap
 (**Devices**)
     (CPE - Customer-Premises Equipment)
@@ -135,6 +157,16 @@ mindmap
 
 ## Price structure
 ```mermaid
+%%{
+    init:{
+        "theme": "base",
+        "themeVariables": {
+            "primaryColor": "#e6c2b2",
+            "primaryTextColor": "#fff",
+            "fontFamily": 'Roboto,sans-serif'
+        }
+    }
+}%%
 mindmap
 (**Price Structure**)
     (Pricing Model)
