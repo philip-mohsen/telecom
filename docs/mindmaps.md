@@ -14,7 +14,10 @@ Classification by area:
 %%{
     init:{
         'theme': 'base',
-        'themeVariables': {'background': '#fff'}
+        'themeVariables': {
+            'darkMode': 'false',
+            'fontFamily': 'Roboto',
+        }
     }
 }%%
 mindmap
