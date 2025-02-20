@@ -1,53 +1,84 @@
+from __future__ import annotations
 from abc import ABC
 from abc import abstractmethod
+from typing import Optional, Generic, TypeVar
+import hashlib
 
-class EntityGroup(ABC):
-    def __init__(self, node: object, parent=None) -> None:
-        self.validate_node_type(node)
-        self.members = []
-        self.node = node
-        self.parent = parent
-
-    @abstractmethod
-    def validate_node_type(self, node: object) -> None:
-        pass
-
-    def add(self, member: object) -> None:
-        if not isinstance(member, self.__class__):
-            member = self.__class__(node=member, parent=self)
-        member.parent = self
-        self.members.append(member)
-
-    @property
-    def uuid(self) -> str:
-        if self.parent:
-            return f"{self.parent.uuid}.{self.node.uuid}"
-        return self.node.uuid
-
-    def __eq__(self, other: object) -> bool:
+class ValueObject(ABC):
+    def __eq__(self, other: ValueObject) -> bool:
         if not isinstance(other, self.__class__):
             return False
-        return self.uuid == other.uuid
-
-    def __str__(self, level: int = 0) -> str:
-        indent = "  " * level
-        return f"{indent}{self.node}\n" + "".join(member.__str__(level + 1) for member in self.members)
-
-class Technology:
-    def __init__(self, uuid: str, name: str, abbreviation: str = None) -> None:
-        self.uuid = uuid
-        self.name = name
-        self.abbreviation = abbreviation
+        return self._equal_values(other)
     
-    def __str__(self) -> str:
-        if self.abbreviation:
-            return f"{self.__class__.__name__}({self.name}, {self.abbreviation})"
-        return f"{self.__class__.__name__}({self.name})"
+    def __hash__(self) -> int:
+        return self._hash_values()
+    
+    @abstractmethod
+    def _equal_values(self, other: ValueObject) -> bool:
+        pass
 
-    def __eq__(self, other: object) -> bool:
-        if not isinstance(other, Technology):
+    @abstractmethod
+    def _hash_values(self) -> int:
+        pass
+
+class Entity(ABC):
+    def __init__(self, uuid: str) -> None:
+        self.uuid = uuid
+
+    def __eq__(self, other: Entity) -> bool:
+        if not isinstance(other, self.__class__):
             return False
         return self.uuid == other.uuid
     
     def __hash__(self) -> int:
         return hash(self.uuid)
+    
+EntityComponentType = TypeVar('EntityComponentType', bound=EntityComponent)
+
+class EntityComponent(Entity):
+    def __init__(self, uuid: str, name: str) -> None:
+        super().__init__(uuid)
+        self.name = name
+        self._parent = None
+    
+    @property
+    def parent(self) -> Optional[EntityComponentType]:
+        return self._parent
+    
+    @parent.setter
+    def parent(self, parent: Optional[EntityComponentType]) -> None:
+        self._parent = parent
+
+class EntityComposite(EntityComponent, Generic[EntityComponentType]):
+    def __init__(self, name: str) -> None:
+        self.name = name
+        self.members: set[EntityComponentType] = set()
+
+    @abstractmethod
+    def validate_entity_component_type(self, component: EntityComponentType) -> None:
+        pass
+
+    def add(self, component: EntityComponentType) -> None:
+        self.validate_entity_component_type(component)
+        self.members.add(component)
+        component.parent = self
+
+    @property
+    def uuid(self) -> str: # Overriding the uuid property
+        sorted_uuids = sorted(member.uuid for member in self.members)   # Sorting the UUIDs
+        combined_uuids = "".join(sorted_uuids)  # Combining the UUIDs
+        return hashlib.sha256(combined_uuids.encode()).hexdigest()  # Hashing the combined UUIDs
+    
+    def __str__(self) -> str:
+            member_strings = ", ".join(str(member) for member in self.members)
+            return f"{self.__class__.__name__}(name={self.name}, members=[{member_strings}])"
+    
+class Technology(EntityComponent):
+    def __init__(self, uuid: str, name: str, abbreviation: str = None) -> None:
+        super().__init__(uuid=uuid, name=name)
+        self.abbreviation = abbreviation
+
+    def __str__(self) -> str:
+        if self.abbreviation:
+            return f"{self.__class__.__name__}(name='{self.name}', abbreviation='{self.abbreviation}')"
+        return f"{self.__class__.__name__}(name='{self.name}')"
