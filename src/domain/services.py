@@ -1,9 +1,10 @@
+from typing import Sequence
 from exceptions import MissingRequiredTechnologyError
 from .model import Service
 from .model import Technology
 
 class TechnologyService(Service):
-    def __init__(self, uuid: str, name: str, *technologies: Technology) -> None:
+    def __init__(self, uuid: str, name: str, technologies: Sequence[Technology]) -> None:
         super().__init__(uuid, name)
         self.technologies = set(technologies)
         self.validate()
@@ -13,12 +14,12 @@ class TechnologyService(Service):
         if not self.technologies:
             raise MissingRequiredTechnologyError()
 
-    def add_technology(self, *technologies: Technology):
+    def add_technology(self, *technologies: Sequence[Technology]) -> None:
         for technology in technologies:
             self.technologies.add(technology)
             technology.services.add(self)
 
-    def remove_technology(self, *technologies: Technology):
+    def remove_technology(self, *technologies: Sequence[Technology]) -> None:
         for technology in technologies:
             self.technologies.discard(technology)
             technology.services.discard(self)
