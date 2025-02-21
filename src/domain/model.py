@@ -37,31 +37,34 @@ class EntityComponent(Entity):
     def __init__(self, uuid: str, name: str) -> None:
         super().__init__(uuid)
         self.name = name
-        self._parent = None
+        self._parent: EntityComposite | None = None
     
     @property
-    def parent(self) -> Optional[EntityComponentType]:
+    def parent(self) -> EntityComposite | None:
         return self._parent
     
     @parent.setter
-    def parent(self, parent: Optional[EntityComponentType]) -> None:
+    def parent(self, parent: EntityComposite) -> None:
         self._parent = parent
 
-EntityComponentType = TypeVar('EntityComponentType', bound=EntityComponent)
+TEntityComponent = TypeVar("TEntityComponent", bound="EntityComponent")
 
-class EntityComposite(EntityComponent, Generic[EntityComponentType]):
+class EntityComposite(EntityComponent, Generic[TEntityComponent]):
     def __init__(self, name: str) -> None:
         self.name = name
-        self.members: set[EntityComponentType] = set()
+        self.members: set[TEntityComponent] = set()
 
     @abstractmethod
-    def validate_entity_component_type(self, component: EntityComponentType) -> None:
+    def validate_entity_component_type(self, component: TEntityComponent) -> None:
         pass
 
-    def add(self, component: EntityComponentType) -> None:
-        self.validate_entity_component_type(component)
+    def _add_validated_component(self, component: TEntityComponent) -> None:
         self.members.add(component)
         component.parent = self
+
+    def add(self, component: TEntityComponent) -> None:
+        self.validate_entity_component_type(component)
+        self._add_validated_component(component)
 
     @property
     def uuid(self) -> str: # Overriding the uuid property
@@ -70,8 +73,9 @@ class EntityComposite(EntityComponent, Generic[EntityComponentType]):
         return hashlib.sha256(combined_uuids.encode()).hexdigest()  # Hashing the combined UUIDs
     
     def __str__(self) -> str:
-            member_strings = ", ".join(str(member) for member in self.members)
-            return f"{self.__class__.__name__}(name={self.name}, members=[{member_strings}])"
+        sorted_members = sorted(self.members, key=lambda x: x.uuid)  # Sorting the members by UUID
+        member_strings = ", ".join(str(member) for member in sorted_members)
+        return f"{self.__class__.__name__}(name='{self.name}', members=[{member_strings}])"
 
 class Technology(EntityComponent):
     def __init__(self, uuid: str, name: str, abbreviation: str = None) -> None:
