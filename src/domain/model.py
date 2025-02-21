@@ -1,8 +1,9 @@
 from __future__ import annotations
 from abc import ABC
 from abc import abstractmethod
-from typing import Generic, TypeVar
+from typing import Generic, TypeVar, Sequence
 import hashlib
+from exceptions import MissingRequiredTechnologyError
 
 class ValueObject(ABC):
     def __eq__(self, other: ValueObject) -> bool:
@@ -33,8 +34,9 @@ class Entity(ABC):
     def __hash__(self) -> int:
         return hash(self.uuid)
 
+    @abstractmethod
     def __str__(self) -> str:
-        return f"{self.__class__.__name__}(uuid='{self.uuid}')"
+        pass
 
 class EntityComponent(Entity):
     def __init__(self, uuid: str, name: str) -> None:
@@ -49,6 +51,9 @@ class EntityComponent(Entity):
     @parent.setter
     def parent(self, parent: EntityComposite) -> None:
         self._parent = parent
+
+    def __str__(self) -> str:
+        return f"{self.__class__.__name__}(name='{self.name}')"  # Overriding the __str__ method
 
 T = TypeVar("T", bound="EntityComponent")
 
@@ -84,6 +89,7 @@ class Technology(EntityComponent):
     def __init__(self, uuid: str, name: str, abbreviation: str = None) -> None:
         super().__init__(uuid=uuid, name=name)
         self.abbreviation = abbreviation
+        self.services: set[Service] = set()
 
     def __str__(self) -> str:
         if self.abbreviation:
@@ -92,3 +98,8 @@ class Technology(EntityComponent):
                 f"abbreviation='{self.abbreviation}')"
             )
         return f"{self.__class__.__name__}(name='{self.name}')"
+
+class Service(Entity):
+    def __init__(self, uuid: str, name: str) -> None:
+        super().__init__(uuid)
+        self.name = name

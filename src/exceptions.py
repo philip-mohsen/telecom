@@ -11,3 +11,10 @@ class InvalidEntityComponentTypeError(Exception):
             f"Allowed types: {', '.join(t.__name__ for t in allowed_types)}"
         )
         super().__init__(self.message)
+
+class MissingRequiredTechnologyError(Exception):
+    error_code = "MISSING_REQUIRED_TECHNOLOGY"
+
+    def __init__(self) -> None:
+        self.message = "A service must have at least one required technology."
+        super().__init__(self.message)
