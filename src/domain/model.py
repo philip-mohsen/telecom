@@ -33,6 +33,9 @@ class Entity(ABC):
     def __hash__(self) -> int:
         return hash(self.uuid)
     
+    def __str__(self) -> int:
+        return f"{self.__class__.__name__}(uuid='{self.uuid}')"
+    
 class EntityComponent(Entity):
     def __init__(self, uuid: str, name: str) -> None:
         super().__init__(uuid)
