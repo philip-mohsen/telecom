@@ -33,8 +33,6 @@ class Entity(ABC):
     def __hash__(self) -> int:
         return hash(self.uuid)
     
-EntityComponentType = TypeVar('EntityComponentType', bound=EntityComponent)
-
 class EntityComponent(Entity):
     def __init__(self, uuid: str, name: str) -> None:
         super().__init__(uuid)
@@ -48,6 +46,8 @@ class EntityComponent(Entity):
     @parent.setter
     def parent(self, parent: Optional[EntityComponentType]) -> None:
         self._parent = parent
+
+EntityComponentType = TypeVar('EntityComponentType', bound=EntityComponent)
 
 class EntityComposite(EntityComponent, Generic[EntityComponentType]):
     def __init__(self, name: str) -> None:
@@ -72,7 +72,7 @@ class EntityComposite(EntityComponent, Generic[EntityComponentType]):
     def __str__(self) -> str:
             member_strings = ", ".join(str(member) for member in self.members)
             return f"{self.__class__.__name__}(name={self.name}, members=[{member_strings}])"
-    
+
 class Technology(EntityComponent):
     def __init__(self, uuid: str, name: str, abbreviation: str = None) -> None:
         super().__init__(uuid=uuid, name=name)
