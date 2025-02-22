@@ -16,5 +16,5 @@ class JSONMapper(ABC, Generic[ObjectT]):
 
     @staticmethod
     @abstractmethod
-    def from_dict(self, data: dict) -> ObjectT:
+    def from_dict(data: dict) -> ObjectT:
         pass

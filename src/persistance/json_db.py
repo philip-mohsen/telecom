@@ -10,12 +10,12 @@ class JSONDatabase:
     def load_data(self, filename: str) -> Dict[str, Any]:
         filepath = os.path.join(self.data_dir, f"{filename}.json")
         try:
-            with open(filepath, "r") as f:
+            with open(filepath, "r", encoding="utf-8") as f:
                 return json.load(f)
         except FileNotFoundError:
             return {}
 
     def save_data(self, filename: str, data: Dict[str, Any]) -> None:
         filepath = os.path.join(self.data_dir, f"{filename}.json")
-        with open(filepath, "w") as f:
+        with open(filepath, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=4)
