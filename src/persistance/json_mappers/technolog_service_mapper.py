@@ -1,11 +1,11 @@
 from .base import JSONMapper
-from src.service_catalog.domain.model import TechnologService
+from src.service_catalog.domain.model import TechnologyService
 from src.service_catalog.repositories.technology_repository import TechnologyRepository
 
-class TechnologyServiceMapper(JSONMapper[TechnologService]):
+class TechnologyServiceMapper(JSONMapper[TechnologyService]):
     """Mapper for TechnologyService domain object."""
     @staticmethod
-    def to_dict(obj: TechnologService) -> dict:
+    def to_dict(obj: TechnologyService) -> dict:
         return {
             "uuid": obj.uuid,
             "name": obj.name,
@@ -13,8 +13,8 @@ class TechnologyServiceMapper(JSONMapper[TechnologService]):
         }
 
     @staticmethod
-    def from_dict(data: dict, technology_repository: TechnologyRepository) -> TechnologService:
-        return TechnologService(
+    def from_dict(data: dict, technology_repository: TechnologyRepository) -> TechnologyService:
+        return TechnologyService(
             uuid=data["uuid"],
             name=data["name"],
             technologies=[technology_repository.get_by_uuid(uuid) for uuid in data["technologies"]],

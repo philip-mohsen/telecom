@@ -17,7 +17,7 @@ class Technology(Entity):
             )
         return f"{self.__class__.__name__}(name='{self.name}')"
 
-class TechnologService(Entity):
+class TechnologyService(Entity):
     def __init__(self, uuid: str, name: str, technologies: Sequence[Technology]) -> None:
         super().__init__(uuid)
         self.name = name
