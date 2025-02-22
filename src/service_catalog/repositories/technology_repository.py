@@ -1,7 +1,7 @@
-from src.shared.repositories.base import Repository
-from src.service_catalog.domain.model import Technology
-from src.persistance.json_db import JSONDatabase
-from src.persistance.json_mappers import TechnologyMapper
+from shared.repositories.base import Repository
+from service_catalog.domain.model import Technology
+from persistance.json_db import JSONDatabase
+from persistance.json_mappers.technology_mapper import TechnologyMapper
 
 class TechnologyRepository(Repository[Technology]):
     def __init__(self, json_db: JSONDatabase):
@@ -17,3 +17,12 @@ class TechnologyRepository(Repository[Technology]):
         if data is None:
             raise KeyError(f"Technology with uuid {uuid} not found.")
         return TechnologyMapper.from_dict(data)
+
+    def update(self, entity: Technology) -> None:
+        pass
+
+    def delete(self, uuid: str) -> None:
+        pass
+
+    def get_all(self) -> list[Technology]:
+        pass
