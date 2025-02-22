@@ -1,11 +1,26 @@
+from __future__ import annotations
 from typing import Sequence
 from exceptions import MissingRequiredTechnologyError
-from .model import Service
-from .model import Technology
+from src.shared.domain.model import Entity
 
-class TechnologyService(Service):
+class Technology(Entity):
+    def __init__(self, uuid: str, name: str, abbreviation: str = "NA") -> None:
+        super().__init__(uuid)
+        self.name = name
+        self.abbreviation = abbreviation
+
+    def __str__(self) -> str:
+        if self.abbreviation:
+            return (
+                f"{self.__class__.__name__}(name='{self.name}', "
+                f"abbreviation='{self.abbreviation}')"
+            )
+        return f"{self.__class__.__name__}(name='{self.name}')"
+
+class TechnologyEnabledService(Entity):
     def __init__(self, uuid: str, name: str, technologies: Sequence[Technology]) -> None:
-        super().__init__(uuid, name)
+        super().__init__(uuid)
+        self.name = name
         self.technologies = set(technologies)
         self.validate()
 
@@ -17,12 +32,10 @@ class TechnologyService(Service):
     def add_technology(self, *technologies: Sequence[Technology]) -> None:
         for technology in technologies:
             self.technologies.add(technology)
-            technology.services.add(self)
 
     def remove_technology(self, *technologies: Sequence[Technology]) -> None:
         for technology in technologies:
             self.technologies.discard(technology)
-            technology.services.discard(self)
             self.validate()
 
     def __str__(self) -> str:

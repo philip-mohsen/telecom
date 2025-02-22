@@ -1,9 +1,10 @@
 from __future__ import annotations
-from abc import ABC
-from abc import abstractmethod
-from typing import Generic, TypeVar, Sequence
+from abc import ABC, abstractmethod
+from typing import TypeVar, Generic
 import hashlib
-from exceptions import MissingRequiredTechnologyError
+
+SimpleValueT = TypeVar("SimpleValueT")
+EntityComponentT = TypeVar("EntityComponentT", bound="EntityComponent")
 
 class ValueObject(ABC):
     def __eq__(self, other: ValueObject) -> bool:
@@ -22,6 +23,20 @@ class ValueObject(ABC):
     def _hash_values(self) -> int:
         pass
 
+class SimpleValueObject(ValueObject, Generic[SimpleValueT]):
+    def __init__(self, value: SimpleValueT) -> None:
+        self._value = value
+
+    @property
+    def value(self) -> SimpleValueT:
+        return self._value
+
+    def _equal_values(self, other: SimpleValueObject[SimpleValueT]) -> bool:
+        return self.value == other.value
+
+    def _hash_values(self) -> int:
+        return hash(self.value)
+
 class Entity(ABC):
     def __init__(self, uuid: str) -> None:
         self.uuid = uuid
@@ -38,9 +53,9 @@ class Entity(ABC):
     def __str__(self) -> str:
         pass
 
-class EntityComponent(Entity):
-    def __init__(self, uuid: str, name: str) -> None:
-        super().__init__(uuid)
+class EntityComponent:
+    def __init__(self, entity: Entity, name: str) -> None:
+        self.entity = entity
         self.name = name
         self._parent: EntityComposite | None = None
 
@@ -52,21 +67,23 @@ class EntityComponent(Entity):
     def parent(self, parent: EntityComposite) -> None:
         self._parent = parent
 
+    @property
+    def uuid(self) -> str:
+        return self.entity.uuid
+
     def __str__(self) -> str:
         return f"{self.__class__.__name__}(name='{self.name}')"  # Overriding the __str__ method
 
-T = TypeVar("T", bound="EntityComponent")
-
-class EntityComposite(Generic[T]):
+class EntityComposite(Generic[EntityComponentT]):
     def __init__(self, name: str) -> None:
         self.name = name
-        self.members: set[T] = set()
+        self.members: set[EntityComponentT] = set()
 
     @abstractmethod
-    def validate_entity_component_type(self, component: T) -> None:
+    def validate_entity_component_type(self, component: EntityComponentT) -> None:
         pass
 
-    def _add_validated_component(self, component: T) -> None:
+    def _add_validated_component(self, component: EntityComponentT) -> None:
         self.members.add(component)
         component.parent = self
 
@@ -84,22 +101,3 @@ class EntityComposite(Generic[T]):
         sorted_members = sorted(self.members, key=lambda x: x.uuid)  # Sorting the members by UUID
         member_strings = ", ".join(str(member) for member in sorted_members)
         return f"{self.__class__.__name__}(name='{self.name}', members=[{member_strings}])"
-
-class Technology(EntityComponent):
-    def __init__(self, uuid: str, name: str, abbreviation: str = None) -> None:
-        super().__init__(uuid=uuid, name=name)
-        self.abbreviation = abbreviation
-        self.services: set[Service] = set()
-
-    def __str__(self) -> str:
-        if self.abbreviation:
-            return (
-                f"{self.__class__.__name__}(name='{self.name}', "
-                f"abbreviation='{self.abbreviation}')"
-            )
-        return f"{self.__class__.__name__}(name='{self.name}')"
-
-class Service(Entity):
-    def __init__(self, uuid: str, name: str) -> None:
-        super().__init__(uuid)
-        self.name = name
