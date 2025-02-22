@@ -14,7 +14,7 @@ class Repository(ABC, Generic[EntityT]):
         pass
 
     @abstractmethod
-    def get_by_uuid(self, uuid: str) -> Optional[T]:
+    def get_by_uuid(self, uuid: str) -> Optional[EntityT]:
         """Retrieves an entity by its UUID."""
         pass
 
