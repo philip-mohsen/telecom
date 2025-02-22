@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import Sequence
-from exceptions import MissingRequiredTechnologyError
-from shared.domain.model import Entity
+from src.exceptions import MissingRequiredTechnologyError
+from src.shared.domain.model import Entity
 
 class Technology(Entity):
     def __init__(self, uuid: str, name: str, abbreviation: str = "NA") -> None:

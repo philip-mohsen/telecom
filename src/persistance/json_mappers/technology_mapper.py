@@ -2,7 +2,7 @@
 Mappers for domain object (for JSON persistance demo).
 """
 from .base import JSONMapper
-from service_catalog.domain.model import Technology
+from src.service_catalog.domain.model import Technology
 
 class TechnologyMapper(JSONMapper[Technology]):
     """Mapper for Technology domain object."""

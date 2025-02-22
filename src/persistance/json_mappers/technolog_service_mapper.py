@@ -1,6 +1,6 @@
 from .base import JSONMapper
-from service_catalog.domain.model import TechnologService
-from service_catalog.repositories.technology_repository import TechnologyRepository
+from src.service_catalog.domain.model import TechnologService
+from src.service_catalog.repositories.technology_repository import TechnologyRepository
 
 class TechnologyServiceMapper(JSONMapper[TechnologService]):
     """Mapper for TechnologyService domain object."""
