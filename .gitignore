@@ -1,4 +1,4 @@
-/src/client.py
+client.py
 **/__pycache__/
 .vscode/
 .pytest_cache/
