@@ -3,7 +3,7 @@ from service_catalog.domain.model import TechnologService
 from service_catalog.repositories.technology_repository import TechnologyRepository
 
 class TechnologyServiceMapper(JSONMapper[TechnologService]):
-    """Mapper for TechnologyEnabledService domain object."""
+    """Mapper for TechnologyService domain object."""
     @staticmethod
     def to_dict(obj: TechnologService) -> dict:
         return {
