@@ -3,4 +3,4 @@
 .vscode/
 .pytest_cache/
 venv/
-/src/tests/data/
+/tests/data/
