@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import Sequence
 from exceptions import MissingRequiredTechnologyError
-from src.shared.domain.model import Entity
+from shared.domain.model import Entity
 
 class Technology(Entity):
     def __init__(self, uuid: str, name: str, abbreviation: str = "NA") -> None:
@@ -17,7 +17,7 @@ class Technology(Entity):
             )
         return f"{self.__class__.__name__}(name='{self.name}')"
 
-class TechnologyEnabledService(Entity):
+class TechnologService(Entity):
     def __init__(self, uuid: str, name: str, technologies: Sequence[Technology]) -> None:
         super().__init__(uuid)
         self.name = name
