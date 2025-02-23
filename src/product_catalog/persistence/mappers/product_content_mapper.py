@@ -1,6 +1,6 @@
-from src.product_catalog.domain.model import ProductContent
+from src.shared.persistence.mappers.base import JSONMapper
 from src.service_catalog.repositories.technology_service_repository import TechnologyServiceRepository
-from src.persistance.json_mappers.base import JSONMapper
+from src.product_catalog.domain.model import ProductContent
 
 class ProductContentMapper(JSONMapper[ProductContent]):
     """Mapper for ProductContent domain object."""

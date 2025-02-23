@@ -1,8 +1,8 @@
 from src.shared.repositories.base import Repository
+from src.shared.persistence.json_db import JSONDatabase
 from src.service_catalog.domain.model import TechnologyService
-from src.persistance.json_db import JSONDatabase
-from src.persistance.json_mappers.technolog_service_mapper import TechnologyServiceMapper
-from .technology_repository import TechnologyRepository
+from src.service_catalog.persistence.mappers.technology_service_mapper import TechnologyServiceMapper
+from src.service_catalog.repositories.technology_repository import TechnologyRepository
 
 class TechnologyServiceRepository(Repository[TechnologyService]):
     def __init__(self, json_db: JSONDatabase):

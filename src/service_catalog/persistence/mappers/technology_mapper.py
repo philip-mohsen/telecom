@@ -1,8 +1,8 @@
 """
 Mappers for domain object (for JSON persistance demo).
 """
+from src.shared.persistence.mappers.base import JSONMapper
 from src.service_catalog.domain.model import Technology
-from .base import JSONMapper
 
 class TechnologyMapper(JSONMapper[Technology]):
     """Mapper for Technology domain object."""
