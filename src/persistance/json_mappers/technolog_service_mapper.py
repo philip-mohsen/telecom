@@ -1,4 +1,5 @@
 from src.service_catalog.domain.model import TechnologyService
+from src.service_catalog.domain.enums import ContentValueType
 from src.service_catalog.repositories.technology_repository import TechnologyRepository
 from .base import JSONMapper
 
@@ -10,6 +11,7 @@ class TechnologyServiceMapper(JSONMapper[TechnologyService]):
             "uuid": obj.uuid,
             "name": obj.name,
             "technologies": [tech.uuid for tech in obj.technologies],
+            "content_value_type": obj.content_value_type.value,
         }
 
     @staticmethod
@@ -18,4 +20,5 @@ class TechnologyServiceMapper(JSONMapper[TechnologyService]):
             uuid=data["uuid"],
             name=data["name"],
             technologies=[technology_repository.get_by_uuid(uuid) for uuid in data["technologies"]],
+            content_value_type=ContentValueType(data["content_value_type"]),
         )

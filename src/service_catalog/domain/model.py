@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import Sequence
 from src.exceptions import MissingRequiredTechnologyError
 from src.shared.domain.model import Entity
+from src.service_catalog.domain.enums import ContentValueType
 
 class Technology(Entity):
     def __init__(self, uuid: str, name: str, abbreviation: str = "NA") -> None:
@@ -18,10 +19,11 @@ class Technology(Entity):
         return f"{self.__class__.__name__}(name='{self.name}')"
 
 class TechnologyService(Entity):
-    def __init__(self, uuid: str, name: str, technologies: Sequence[Technology]) -> None:
+    def __init__(self, uuid: str, name: str, technologies: Sequence[Technology], content_value_type: ContentValueType) -> None:
         super().__init__(uuid)
         self.name = name
         self.technologies = set(technologies)
+        self.content_value_type = content_value_type
         self.validate()
 
     def validate(self) -> None:
@@ -41,4 +43,8 @@ class TechnologyService(Entity):
     def __str__(self) -> str:
         sorted_technologies = sorted(self.technologies, key=lambda x: x.uuid)
         technology_strings = ", ".join(str(tech) for tech in sorted_technologies)
-        return f"{self.__class__.__name__}(name='{self.name}', technologies=[{technology_strings}])"
+        return (
+            f"{self.__class__.__name__}(name='{self.name}', "
+            f"technologies=[{technology_strings}]), "
+            f"content_value_type={self.content_value_type})"
+        )
