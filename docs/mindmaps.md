@@ -3,6 +3,7 @@
 - [Services](#services)
 - [Devices](#devices)
 - [Price Structure](#price-structure)
+- [Offering](#offering)
 
 ## Technology
 Classification by area:
@@ -24,7 +25,7 @@ Classification by area:
 mindmap
 (**Technology**)
     (Copper Network)
-        
+
         (POTS - Plain Old Telephone Service)
         (DSL - Digital Subscriber Line)
             (ADSL - Asymmetric DSL)
@@ -189,4 +190,43 @@ mindmap
         (Base price)
         (Discounts)
         (Fees)
+```
+
+## Offering
+```mermaid
+%%{
+    init:{
+        "theme": "base",
+        "themeVariables": {
+            "primaryColor": "#e6c2b2",
+            "primaryTextColor": "#fff",
+            "fontFamily": 'Roboto,sans-serif'
+        }
+    }
+}%%
+mindmap
+(**Offering**)
+    (Bundels)
+    (Customer Profile)
+        (Identity)
+            (Residential)
+            (Business)
+        (Service)
+            (Mobile only)
+            (Fixed only)
+            (FMC - Fixed Mobile Convergence)
+        (Geography)
+    (Customer Lifecycle)
+        (Acquisition)
+        (Retention)
+            (On contract end date)
+            (Before contract end date)
+        (Cross-Sale)
+        (Technology Transition)
+        (Price Structure Transition)
+    (Sales Channels)
+        (POS - Point of sale)
+        (Outbound calls)
+        (Mobile application)
+        (Door-to-door)
 ```
