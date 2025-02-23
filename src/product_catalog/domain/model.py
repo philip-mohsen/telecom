@@ -1,5 +1,6 @@
 from typing import Sequence
 from src.shared.domain.model import Entity
+from src.shared.domain.model import SimpleValueObject
 from src.service_catalog.domain.model import TechnologyService
 
 class ProductContent(Entity):
@@ -31,4 +32,20 @@ class ProductTemplate(Entity):
         return (
             f"{self.__class__.__name__}(name='{self.name}', "
             f"product_contents=[{content_strings}])"
+        )
+
+class Product(Entity):
+    def __init__(self, uuid: str, name: str, product_template: ProductTemplate) -> None:
+        super().__init__(uuid)
+        self.name = name
+        self.product_template = product_template
+        self.content_values: dict[str, SimpleValueObject] = {}
+
+    def __str__(self) -> str:
+        template_name = self.product_template.name
+        value_strings = ", ".join(f"{k}: {v}" for k, v in self.content_values.items())
+        return (
+            f"{self.__class__.__name__}(name='{self.name}', "
+            f"product_template={template_name}, "
+            f"content_values=[{value_strings}])"
         )
