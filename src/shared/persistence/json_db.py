@@ -19,3 +19,11 @@ class JSONDatabase:
         filepath = os.path.join(self.data_dir, f"{filename}.json")
         with open(filepath, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=4)
+
+    def clear(self) -> None:
+        """Clears all JSON files in the data directory by creating empty JSON files."""
+        for filename in os.listdir(self.data_dir):
+            if filename.endswith(".json"):
+                filepath = os.path.join(self.data_dir, filename)
+                with open(filepath, "w", encoding="utf-8") as f:
+                    json.dump({}, f, indent=4)
