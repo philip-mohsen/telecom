@@ -4,9 +4,9 @@ from src.service_catalog.repositories.technology_service_repository import Techn
 from src.shared.application.uuid_generator import generate_uuid
 
 class CreateProductContentUseCase:
-    def __init__(self, product_content_repo: ProductContentRepository, technology_service_repo: TechnologyServiceRepository):
-        self.product_content_repo = product_content_repo
-        self.technology_service_repo = technology_service_repo
+    def __init__(self, product_content_repository: ProductContentRepository, technology_service_repository: TechnologyServiceRepository):
+        self.product_content_repo = product_content_repository
+        self.technology_service_repo = technology_service_repository
 
     def execute(self, name: str, service_uuid: str) -> ProductContent:
         service = self.technology_service_repo.get_by_uuid(service_uuid)
