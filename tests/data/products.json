@@ -1,32 +1,32 @@
 {
-    "P-150BA9": {
-        "uuid": "P-150BA9",
+    "P-AF87CE": {
+        "uuid": "P-AF87CE",
         "name": "Unnamed Mobile Plan (Low)",
-        "product_template": "PT-787B2B",
+        "product_template": "PT-70F304",
         "content_values": {
-            "PC-23BE7F": 100,
-            "PC-EF6942": 10,
-            "PC-BE7183": 10
+            "PC-873582": 100,
+            "PC-CD6E79": 10,
+            "PC-067CAD": 10
         }
     },
-    "P-16831A": {
-        "uuid": "P-16831A",
+    "P-AB5A17": {
+        "uuid": "P-AB5A17",
         "name": "Unnamed Mobile Plan (Mid)",
-        "product_template": "PT-787B2B",
+        "product_template": "PT-70F304",
         "content_values": {
-            "PC-23BE7F": 500,
-            "PC-EF6942": 50,
-            "PC-BE7183": 50
+            "PC-873582": 500,
+            "PC-CD6E79": 50,
+            "PC-067CAD": 50
         }
     },
-    "P-01D46E": {
-        "uuid": "P-01D46E",
+    "P-A84026": {
+        "uuid": "P-A84026",
         "name": "Unnamed Mobile Plan (High)",
-        "product_template": "PT-787B2B",
+        "product_template": "PT-70F304",
         "content_values": {
-            "PC-23BE7F": 1000,
-            "PC-EF6942": 100,
-            "PC-BE7183": 100
+            "PC-873582": 1000,
+            "PC-CD6E79": 100,
+            "PC-067CAD": 100
         }
     }
 }

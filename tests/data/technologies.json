@@ -1,21 +1,21 @@
 {
-    "TECH-2EA926": {
-        "uuid": "TECH-2EA926",
+    "TECH-6A505B": {
+        "uuid": "TECH-6A505B",
         "name": "Global System for Mobile Communication",
         "abbreviation": "2G/GSM"
     },
-    "TECH-0EF85A": {
-        "uuid": "TECH-0EF85A",
-        "name": "Universal MobileTelecommunicationsSystem",
+    "TECH-DAD580": {
+        "uuid": "TECH-DAD580",
+        "name": "Universal Mobile Telecommunications System",
         "abbreviation": "3G/UMTS"
     },
-    "TECH-1A426C": {
-        "uuid": "TECH-1A426C",
+    "TECH-4B7CD4": {
+        "uuid": "TECH-4B7CD4",
         "name": "Long-Term Evolution",
         "abbreviation": "4G/LTE"
     },
-    "TECH-D9B55A": {
-        "uuid": "TECH-D9B55A",
+    "TECH-CBBD3B": {
+        "uuid": "TECH-CBBD3B",
         "name": "New Radio",
         "abbreviation": "5G/NR"
     }

@@ -21,7 +21,7 @@ db.clear()
 technology_repository = TechnologyRepository(json_db=db)
 use_case = CreateTechnologyUseCase(technology_repository=technology_repository)
 tech_2g = use_case.execute(name="Global System for Mobile Communication", abbreviation="2G/GSM")
-tech_3g = use_case.execute(name="Universal MobileTelecommunicationsSystem", abbreviation="3G/UMTS")
+tech_3g = use_case.execute(name="Universal Mobile Telecommunications System", abbreviation="3G/UMTS")
 tech_4g = use_case.execute(name="Long-Term Evolution", abbreviation="4G/LTE")
 tech_5g = use_case.execute(name="New Radio", abbreviation="5G/NR")
 

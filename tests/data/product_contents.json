@@ -1,17 +1,17 @@
 {
-    "PC-23BE7F": {
-        "uuid": "PC-23BE7F",
+    "PC-873582": {
+        "uuid": "PC-873582",
         "name": "National Mobile Voice Minutes",
-        "service": "TECH-SVC-8A6C65"
+        "service": "TECH-SVC-135B2D"
     },
-    "PC-EF6942": {
-        "uuid": "PC-EF6942",
+    "PC-CD6E79": {
+        "uuid": "PC-CD6E79",
         "name": "International Mobile Voice Minutes",
-        "service": "TECH-SVC-8A6C65"
+        "service": "TECH-SVC-135B2D"
     },
-    "PC-BE7183": {
-        "uuid": "PC-BE7183",
+    "PC-067CAD": {
+        "uuid": "PC-067CAD",
         "name": "National Mobile Data Limit",
-        "service": "TECH-SVC-CFBFE1"
+        "service": "TECH-SVC-C649D4"
     }
 }
