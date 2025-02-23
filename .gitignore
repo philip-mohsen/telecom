@@ -3,4 +3,3 @@ client.py
 .vscode/
 .pytest_cache/
 venv/
-/tests/data/

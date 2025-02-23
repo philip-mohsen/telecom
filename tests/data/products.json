@@ -1,0 +1,32 @@
+{
+    "P-150BA9": {
+        "uuid": "P-150BA9",
+        "name": "Unnamed Mobile Plan (Low)",
+        "product_template": "PT-787B2B",
+        "content_values": {
+            "PC-23BE7F": 100,
+            "PC-EF6942": 10,
+            "PC-BE7183": 10
+        }
+    },
+    "P-16831A": {
+        "uuid": "P-16831A",
+        "name": "Unnamed Mobile Plan (Mid)",
+        "product_template": "PT-787B2B",
+        "content_values": {
+            "PC-23BE7F": 500,
+            "PC-EF6942": 50,
+            "PC-BE7183": 50
+        }
+    },
+    "P-01D46E": {
+        "uuid": "P-01D46E",
+        "name": "Unnamed Mobile Plan (High)",
+        "product_template": "PT-787B2B",
+        "content_values": {
+            "PC-23BE7F": 1000,
+            "PC-EF6942": 100,
+            "PC-BE7183": 100
+        }
+    }
+}

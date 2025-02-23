@@ -1,0 +1,21 @@
+{
+    "TECH-SVC-8A6C65": {
+        "uuid": "TECH-SVC-8A6C65",
+        "name": "Mobile Voice Service",
+        "technologies": [
+            "TECH-2EA926",
+            "TECH-D9B55A",
+            "TECH-0EF85A",
+            "TECH-1A426C"
+        ],
+        "content_value_type": "MinuteValue"
+    },
+    "TECH-SVC-CFBFE1": {
+        "uuid": "TECH-SVC-CFBFE1",
+        "name": "5G Mobile Data Service",
+        "technologies": [
+            "TECH-D9B55A"
+        ],
+        "content_value_type": "DataLimitValue"
+    }
+}

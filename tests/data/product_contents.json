@@ -1,0 +1,17 @@
+{
+    "PC-23BE7F": {
+        "uuid": "PC-23BE7F",
+        "name": "National Mobile Voice Minutes",
+        "service": "TECH-SVC-8A6C65"
+    },
+    "PC-EF6942": {
+        "uuid": "PC-EF6942",
+        "name": "International Mobile Voice Minutes",
+        "service": "TECH-SVC-8A6C65"
+    },
+    "PC-BE7183": {
+        "uuid": "PC-BE7183",
+        "name": "National Mobile Data Limit",
+        "service": "TECH-SVC-CFBFE1"
+    }
+}
