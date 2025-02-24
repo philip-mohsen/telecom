@@ -15,7 +15,10 @@ The project is structured into the following layers:
 * **Infrastructure Layer:**
     * Contains the implementation details of external dependencies, such as databases, APIs, and logging.
     * Located in the `src/<bounded_context>/infrastructure/` and `src/shared/infrastructure/` directories.
-
+* **Presentation Layer:**
+    * Contains the code that interacts with the user, such as API endpoints and UI components (using Flask).
+    * Depends on the application layer.
+    * Located in the `src/<bounded_context>/presentation/` directories.
 ### Bounded Contexts
 
 The project is divided into the following bounded contexts:
