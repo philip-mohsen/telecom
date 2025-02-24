@@ -1,5 +1,5 @@
-from src.shared.persistence.mappers.base import JSONMapper
-from src.service_catalog.repositories.technology_service_repository import TechnologyServiceRepository
+from src.shared.infrastructure.mappers.base import JSONMapper
+from src.service_catalog.infrastructure.repositories.technology_service_repository import TechnologyServiceRepository
 from src.product_catalog.domain.model import ProductContent
 
 class ProductContentMapper(JSONMapper[ProductContent]):

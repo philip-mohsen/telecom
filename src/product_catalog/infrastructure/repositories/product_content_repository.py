@@ -1,8 +1,8 @@
-from src.shared.repositories.base import Repository
-from src.shared.persistence.json_db import JSONDatabase
-from src.service_catalog.repositories.technology_service_repository import TechnologyServiceRepository
+from src.shared.infrastructure.repositories.base import Repository
+from src.shared.infrastructure.json_db import JSONDatabase
+from src.service_catalog.infrastructure.repositories.technology_service_repository import TechnologyServiceRepository
 from src.product_catalog.domain.model import ProductContent
-from src.product_catalog.persistence.mappers.product_content_mapper import ProductContentMapper
+from src.product_catalog.infrastructure.mappers.product_content_mapper import ProductContentMapper
 
 class ProductContentRepository(Repository[ProductContent]):
     """Repository for ProductContent domain objects."""

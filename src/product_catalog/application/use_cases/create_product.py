@@ -1,9 +1,9 @@
 from src.shared.application.uuid_generator import generate_uuid
 from src.service_catalog.domain.value_objects import SimpleValueObject
 from src.product_catalog.domain.model import Product
-from src.product_catalog.repositories.product_repository import ProductRepository
-from src.product_catalog.repositories.product_template_repository import ProductTemplateRepository
-from src.product_catalog.repositories.product_content_repository import ProductContentRepository
+from src.product_catalog.infrastructure.repositories.product_repository import ProductRepository
+from src.product_catalog.infrastructure.repositories.product_template_repository import ProductTemplateRepository
+from src.product_catalog.infrastructure.repositories.product_content_repository import ProductContentRepository
 
 class CreateProductUseCase:
     def __init__(

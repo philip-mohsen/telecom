@@ -1,8 +1,8 @@
-from src.shared.repositories.base import Repository
-from src.shared.persistence.json_db import JSONDatabase
+from src.shared.infrastructure.repositories.base import Repository
+from src.shared.infrastructure.json_db import JSONDatabase
 from src.product_catalog.domain.model import ProductTemplate
-from src.product_catalog.persistence.mappers.product_template_mapper import ProductTemplateMapper
-from src.product_catalog.repositories.product_content_repository import ProductContentRepository
+from src.product_catalog.infrastructure.mappers.product_template_mapper import ProductTemplateMapper
+from src.product_catalog.infrastructure.repositories.product_content_repository import ProductContentRepository
 
 class ProductTemplateRepository(Repository[ProductTemplate]):
     def __init__(self, json_db: JSONDatabase):

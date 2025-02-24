@@ -1,5 +1,5 @@
 from src.service_catalog.domain.model import Technology
-from src.service_catalog.repositories.technology_repository import TechnologyRepository
+from src.service_catalog.infrastructure.repositories.technology_repository import TechnologyRepository
 from src.shared.application.uuid_generator import generate_uuid
 
 class CreateTechnologyUseCase:

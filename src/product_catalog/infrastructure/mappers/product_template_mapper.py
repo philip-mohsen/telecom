@@ -1,6 +1,6 @@
-from src.shared.persistence.mappers.base import JSONMapper
+from src.shared.infrastructure.mappers.base import JSONMapper
 from src.product_catalog.domain.model import ProductTemplate
-from src.product_catalog.repositories.product_content_repository import ProductContentRepository
+from src.product_catalog.infrastructure.repositories.product_content_repository import ProductContentRepository
 
 class ProductTemplateMapper(JSONMapper[ProductTemplate]):
     @staticmethod

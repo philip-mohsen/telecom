@@ -1,5 +1,5 @@
 from src.service_catalog.domain.model import TechnologyService
-from src.service_catalog.repositories.technology_service_repository import TechnologyServiceRepository
+from src.service_catalog.infrastructure.repositories.technology_service_repository import TechnologyServiceRepository
 
 class GetTechnologyServiceUseCase:
     def __init__(self, technology_service_repository: TechnologyServiceRepository):

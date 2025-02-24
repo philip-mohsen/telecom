@@ -1,7 +1,7 @@
 from src.service_catalog.domain.model import TechnologyService
 from src.service_catalog.domain.enums import ContentValueType
-from src.service_catalog.repositories.technology_repository import TechnologyRepository
-from src.service_catalog.repositories.technology_service_repository import TechnologyServiceRepository
+from src.service_catalog.infrastructure.repositories.technology_repository import TechnologyRepository
+from src.service_catalog.infrastructure.repositories.technology_service_repository import TechnologyServiceRepository
 from src.shared.application.uuid_generator import generate_uuid
 
 class CreateTechnologyServiceUseCase:

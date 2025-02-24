@@ -1,8 +1,7 @@
 from src.shared.application.uuid_generator import generate_uuid
 from src.product_catalog.domain.model import ProductContent
-from src.product_catalog.repositories.product_content_repository import ProductContentRepository
-from src.service_catalog.repositories.technology_service_repository import TechnologyServiceRepository
-
+from src.product_catalog.infrastructure.repositories.product_content_repository import ProductContentRepository
+from src.service_catalog.infrastructure.repositories.technology_service_repository import TechnologyServiceRepository
 
 class CreateProductContentUseCase:
     def __init__(self, product_content_repository: ProductContentRepository, technology_service_repository: TechnologyServiceRepository):
