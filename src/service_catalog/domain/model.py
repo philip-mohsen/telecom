@@ -3,7 +3,6 @@ from typing import Sequence
 from src.exceptions import MissingRequiredTechnologyError
 from src.shared.domain.model import Entity
 from src.service_catalog.domain.enums import ContentValueType
-from src.service_catalog.domain.value_objects import Country
 
 class Technology(Entity):
     def __init__(self, uuid: str, name: str, abbreviation: str = "NA") -> None:
