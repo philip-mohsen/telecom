@@ -5,4 +5,4 @@ class ContentValueType(Enum):
     MESSAGE_COUNT = "MessageCountValue"
     DATA_LIMIT = "DataLimitValue"
     INTERNET_SPEED = "InternetSpeedValue"
-    TV_PACKAGE = "TVPackageValue"
+    CHANNEL = "ChannelValue"
