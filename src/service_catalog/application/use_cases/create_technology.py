@@ -7,7 +7,7 @@ class CreateTechnologyUseCase:
         self.technology_repository = technology_repository
 
     def execute(self, name: str, abbreviation: str = "NA") -> Technology:
-        """Retrieves a technology by its UUID."""
+        """Creates a technology and adds it to the repository."""
         uuid = generate_uuid(prefix="TECH-")
         technology = Technology(uuid=uuid, name=name, abbreviation=abbreviation)
         self.technology_repository.add(technology)
