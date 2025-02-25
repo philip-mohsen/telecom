@@ -25,6 +25,6 @@ class DataLimitValue(SimpleValueObject[int]):
     def __str__(self) -> str:
         return f"{self.__class__.__name__}(value={self.value})"
 
-class TVPackageValue(SimpleValueObject[str]):
+class ChannelValue(SimpleValueObject[str]):
     def __str__(self) -> str:
         return f"{self.__class__.__name__}(value={self.value})"
