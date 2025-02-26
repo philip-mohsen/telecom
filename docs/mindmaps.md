@@ -1,5 +1,5 @@
 > ⚠ **Disclaimer:**
-> This is a personal research project compiling publicly available information about telecom services. It does not include any internal data, confidential business strategies, or proprietary insights from any telecom company.All included information is sourced from publicly accessible materials, industry standards, and general telecom knowledge.
+> This is a personal research project compiling publicly available information about telecom services. It does not include any internal data, confidential business strategies, or proprietary insights from any telecom company. All included information is sourced from publicly accessible materials, industry standards, and general telecom knowledge.
 ## Table of Contents
 - [Technology](#technology)
 - [Services](#services)
