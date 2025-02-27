@@ -53,11 +53,24 @@ class Entity(ABC):
     def __str__(self) -> str:
         pass
 
-class EntityComponent:
-    def __init__(self, entity: Entity, name: str) -> None:
-        self.entity = entity
+class NamedEntity(Entity):
+    def __init__(self, uuid: str, name: str) -> None:
+        super().__init__(uuid=uuid)
         self.name = name
+
+class EntityComponent:
+    def __init__(self, entity: Entity, label: str = None) -> None:
+        self.entity = entity
+        self.label = label
         self._parent: EntityComposite | None = None
+
+    @property
+    def name(self) -> str:
+        """
+        Returns the entity's name if it has one, or the provided label otherwise.
+        Uses getattr to handle both NamedEntity and regular Entity instances.
+        """
+        return getattr(self.entity, "name", self.label)
 
     @property
     def parent(self) -> EntityComposite | None:
@@ -101,3 +114,7 @@ class EntityComposite(Generic[EntityComponentT]):
         sorted_members = sorted(self.members, key=lambda x: x.uuid)  # Sorting the members by UUID
         member_strings = ", ".join(str(member) for member in sorted_members)
         return f"{self.__class__.__name__}(name='{self.name}', members=[{member_strings}])"
+
+class Category(NamedEntity):
+    def __str__(self) -> str:
+        return f"{self.__class__.__name__}(name='{self.name}')"
