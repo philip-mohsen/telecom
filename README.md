@@ -23,11 +23,12 @@ The project is structured into the following layers:
 ### Bounded Contexts
 
 The project is divided into the following bounded contexts:
-* **`device_management`**
-* **`offer_catalog`**
-* **`price_catalog`**
-* **`product_catalog`**
+* **`technology_catalog`**
 * **`service_catalog`**
+* **`product_catalog`**
+* **`device_management`**
+* **`price_catalog`**
+* **`offer_catalog`**
 
 ### Shared Code
 
