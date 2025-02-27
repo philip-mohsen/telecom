@@ -100,7 +100,7 @@ class EntityComposite(Generic[EntityComponentT]):
         self.members.add(component)
         component.parent = self
 
-    def add(self, component: T) -> None:
+    def add(self, component: EntityComponentT) -> None:
         self.validate_entity_component_type(component)
         self._add_validated_component(component)
 
