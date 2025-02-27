@@ -4,3 +4,4 @@ client.py
 .pytest_cache/
 venv/
 tests/data/
+docs/mindmaps.md
