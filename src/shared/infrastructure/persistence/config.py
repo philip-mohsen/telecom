@@ -14,7 +14,12 @@ DATABASE_URI_SCHEME = {
 }
 
 config = configparser.ConfigParser()
-config.read(os.environ.get("DB_CONFIG_FILE"))
+config_file_path = os.environ.get("DB_CONFIG_FILE")
+
+if config_file_path:
+    config.read(config_file_path)
+else:
+    raise FileNotFoundError("DB Config file not found")
 
 def get_database_uri(db_config_section: str) -> str:
     if not config.has_section(db_config_section):
