@@ -1,3 +1,5 @@
+from src.shared.exceptions.domain_exceptions import InvalidNodeEntityTypeError
+from src.shared.exceptions.domain_exceptions import InvalidParentEntityTypeError
 from src.shared.domain.contracts import EntityContract
 
 class EntityCompositeValidator:
@@ -11,8 +13,8 @@ class EntityCompositeValidator:
 
     def validate_node_entity_type(self, node: EntityContract) -> None:
         if not isinstance(node, self.node_entity_types):
-            raise TypeError(f"Invalid node type: {type(node)}")
+            raise InvalidNodeEntityTypeError(f"Invalid node type: {type(node)}")
 
     def validate_parent_entity_type(self, parent: EntityContract) -> None:
         if not isinstance(parent, self.parent_entity_types):
-            raise TypeError(f"Invalid parent type: {type(parent)}")
+            raise InvalidParentEntityTypeError(f"Invalid parent type: {type(parent)}")
