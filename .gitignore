@@ -6,3 +6,4 @@ venv/
 tests/data/
 docs/mindmaps.md
 config/
+.env
