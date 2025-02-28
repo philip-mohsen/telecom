@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import TypeVar
 from typing import Protocol
 from typing import runtime_checkable
-from typing_extensions import Self
+from typing import Any
 
 ValueObjectT = TypeVar("ValueObjectT")
 
@@ -10,7 +10,7 @@ ValueObjectT = TypeVar("ValueObjectT")
 class ValueObjectContract(Protocol[ValueObjectT]):
     value: ValueObjectT
 
-    def __eq__(self, other: Self) -> bool:
+    def __eq__(self, other: Any) -> bool:
         ...
 
     def __hash__(self) -> int:
@@ -23,7 +23,7 @@ class ValueObjectContract(Protocol[ValueObjectT]):
 class EntityContract(Protocol):
     uuid: str
 
-    def __eq__(self, other: Self) -> bool:
+    def __eq__(self, other: Any) -> bool:
         ...
 
     def __hash__(self) -> int:

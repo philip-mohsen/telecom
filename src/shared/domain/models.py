@@ -4,6 +4,7 @@ from typing import TypeVar
 from typing import Generic
 from typing import Optional
 from typing import Iterator
+from typing import Any
 from typing_extensions import Self
 import hashlib
 from src.shared.domain.contracts import ValueObjectT
@@ -19,7 +20,7 @@ class ValueObject(Generic[ValueObjectT]):
     def value(self) -> ValueObjectT:
         return self._value
 
-    def __eq__(self, other: Self) -> bool:
+    def __eq__(self, other: Any) -> bool:
         if not isinstance(other, self.__class__):
             return False
         return self.value == other.value
@@ -34,7 +35,7 @@ class Entity:
     def __init__(self, uuid: str) -> None:
         self.uuid = uuid
 
-    def __eq__(self, other: Self) -> bool:
+    def __eq__(self, other: Any) -> bool:
         if not isinstance(other, self.__class__):
             return False
         return self.uuid == other.uuid
@@ -54,7 +55,7 @@ class Category(Entity):
         return f"{self.__class__.__name__}(uuid={self.uuid}, name={self.name})"
 
 class EntityComposite(ABC, Generic[EntityT]):
-    def __init__(self, entity: EntityT, label: str = None) -> None:
+    def __init__(self, entity: EntityT, label: Optional[str] = None) -> None:
         self.validator = self.create_entity_composite_validator()
         self.validate(entity)
         self.entity = entity
@@ -68,7 +69,7 @@ class EntityComposite(ABC, Generic[EntityT]):
         pass
 
     @property
-    def name(self) -> str:
+    def name(self) -> Optional[str]:
         return getattr(self.entity, "name", self.label)
 
     @property
@@ -87,7 +88,7 @@ class EntityComposite(ABC, Generic[EntityT]):
         if self.parent:
             self.validator.validate_parent_entity_type(self.parent.entity)
 
-    def add(self, entity: EntityT, label: str = None) -> Self:
+    def add(self, entity: EntityT, label: Optional[str] = None) -> Self:
         self.validate(entity)
         member = self.__class__(entity=entity, label=label)
         member.parent = self
@@ -95,7 +96,7 @@ class EntityComposite(ABC, Generic[EntityT]):
         self.members.append(member)
         return member
 
-    def __eq__(self, other: Self) -> bool:
+    def __eq__(self, other: Any) -> bool:
         if not isinstance(other, self.__class__):
             return False
         return self.uuid == other.uuid
