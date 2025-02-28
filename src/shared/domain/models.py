@@ -56,12 +56,12 @@ class Category(Entity):
 
 class EntityComposite(ABC, Generic[EntityT]):
     def __init__(self, entity: EntityT, label: Optional[str] = None) -> None:
+        self.parent: Optional[Self] = None
+        self.members: list[Self] = []
         self.validator = self.create_entity_composite_validator()
         self.validate(entity)
         self.entity = entity
         self.label = label
-        self.parent: Optional[Self] = None
-        self.members: list[Self] = []
         self.depth = 0
 
     @abstractmethod
@@ -85,6 +85,10 @@ class EntityComposite(ABC, Generic[EntityT]):
 
     def validate(self, entity: EntityT) -> None:
         self.validator.validate_node_entity_type(entity)
+
+        if not self.parent:
+            self.validator.validate_root_entity_type(entity)
+
         if self.parent:
             self.validator.validate_parent_entity_type(self.parent.entity)
 
