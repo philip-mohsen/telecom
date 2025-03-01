@@ -119,5 +119,4 @@ class CharacteristicSpecification(Entity):
         return (
             f"{self.__class__.__name__}(name={self.name}, "
             f"description={self.description}, fields={self.fields}), "
-            f"fields={self.fields})"
-        )
+            )
