@@ -12,7 +12,7 @@ class CategoryValidator:
     def validate_category_member_type(self, member: EntityContract) -> None:
         if not isinstance(member, self.member_category_types):
             message = (
-                f"Invalid member type: {type(member)}. "
+                f"Invalid member type: {type(member).__name__}. "
                 f"Allowed types: {', '.join([t.__name__ for t in self.member_category_types])}"
             )
             raise InvalidCategoryMemberTypeError(message)
