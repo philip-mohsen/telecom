@@ -5,8 +5,10 @@ from typing import Generic
 from typing import Optional
 from typing import Any
 from typing import Iterator
+from dataclasses import dataclass
 from src.shared.domain.contracts import ValueObjectT
 from src.shared.domain.validation.category_validations import CategoryValidator
+from src.shared.domain.enums import ValueType
 
 EntityT = TypeVar("EntityT", bound="Entity")
 
@@ -91,3 +93,31 @@ class Category(ABC, Entity, Generic[EntityT]):
             )
             subcategory_strings.append(node_str)
         return "\n".join(subcategory_strings)
+
+@dataclass
+class CharacteristicSpecificationFields:
+    is_unique: bool = False
+    configurable: bool = True
+    cardinality: tuple[int, int] = (1, 1)
+    value_type: ValueType = ValueType.STRING
+
+class CharacteristicSpecification(Entity):
+    def __init__(
+            self,
+            uuid: str,
+            name: str,
+            fields: CharacteristicSpecificationFields,
+            description: Optional[str] = None,
+            ) -> None:
+
+        super().__init__(uuid=uuid)
+        self.name = name
+        self.description = description
+        self.fields = fields
+
+    def __str__(self) -> str:
+        return (
+            f"{self.__class__.__name__}(name={self.name}, "
+            f"description={self.description}, fields={self.fields}), "
+            f"fields={self.fields})"
+        )
