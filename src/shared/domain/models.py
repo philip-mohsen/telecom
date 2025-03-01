@@ -3,12 +3,10 @@ from abc import ABC, abstractmethod
 from typing import TypeVar
 from typing import Generic
 from typing import Optional
-from typing import Iterator
 from typing import Any
-from typing_extensions import Self
-import hashlib
+from typing import Iterator
 from src.shared.domain.contracts import ValueObjectT
-from src.shared.domain.validation.entity_composite_validations import EntityCompositeValidator
+from src.shared.domain.validation.category_validations import CategoryValidator
 
 EntityT = TypeVar("EntityT", bound="Entity")
 
@@ -46,75 +44,50 @@ class Entity:
     def __str__(self) -> str:
         return f"{self.__class__.__name__}(uuid={self.uuid})"
 
-class Category(Entity):
-    def __init__(self, uuid: str, name: str) -> None:
+class Category(ABC, Entity, Generic[EntityT]):
+    def __init__(self, uuid: str, name: str, description: Optional[str] = None) -> None:
         super().__init__(uuid=uuid)
         self.name = name
-
-    def __str__(self) -> str:
-        return f"{self.__class__.__name__}(uuid={self.uuid}, name={self.name})"
-
-class EntityComposite(ABC, Generic[EntityT]):
-    def __init__(self, entity: EntityT, label: Optional[str] = None) -> None:
-        self.parent: Optional[Self] = None
-        self.members: list[Self] = []
-        self.validator = self.create_entity_composite_validator()
-        self.validate(entity)
-        self.entity = entity
-        self.label = label
+        self.description = description
+        self.members: list[EntityT] = []
+        self.parent: Optional[Category[EntityT]] = None
+        self.subcategories: list[Category[EntityT]] = []
         self.depth = 0
+        self.validator = self.create_category_validator()
 
     @abstractmethod
-    def create_entity_composite_validator(self) -> EntityCompositeValidator:
+    def create_category_validator(self) -> CategoryValidator:
         pass
 
-    @property
-    def name(self) -> Optional[str]:
-        return getattr(self.entity, "name", self.label)
+    def add_subcategory(
+            self,
+            uuid: str,
+            name: str,
+            description: Optional[str] = None
+            ) -> Category[EntityT]:
 
-    @property
-    def uuid(self) -> str:
-        sorted_uuids = sorted(node.entity.uuid for node in self.dfs())
-        combined_uuids = "".join(sorted_uuids)
-        return hashlib.sha256(combined_uuids.encode()).hexdigest()
+        subcategory = self.__class__(uuid=uuid, name=name, description=description)
+        subcategory.parent = self
+        subcategory.depth = self.depth + 1
+        self.subcategories.append(subcategory)
+        return subcategory
 
-    def dfs(self) -> Iterator[Self]:
+    def add_member(self, entity: EntityT) -> None:
+        self.validator.validate_category_member_type(entity)
+        self.members.append(entity)
+
+    def dfs(self) -> Iterator[Category[EntityT]]:
         yield self
-        for member in self.members:
-            yield from member.dfs()
-
-    def validate(self, entity: EntityT) -> None:
-        self.validator.validate_node_entity_type(entity)
-
-        if not self.parent:
-            self.validator.validate_root_entity_type(entity)
-
-        if self.parent:
-            self.validator.validate_parent_entity_type(self.parent.entity)
-
-    def add(self, entity: EntityT, label: Optional[str] = None) -> Self:
-        self.validate(entity)
-        member = self.__class__(entity=entity, label=label)
-        member.parent = self
-        member.depth = self.depth + 1
-        self.members.append(member)
-        return member
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, self.__class__):
-            return False
-        return self.uuid == other.uuid
-
-    def __hash__(self) -> int:
-        return hash(self.uuid)
+        for subcategory in self.subcategories:
+            yield from subcategory.dfs()
 
     def __str__(self) -> str:
-        member_strings = []
+        subcategory_strings = []
         for node in self.dfs():
             indent = " " * node.depth
             node_str = (
                 f"{indent}{self.__class__.__name__}("
-                f"entity={node.entity}, label={node.label})"
+                f"name={node.name}, uuid={node.uuid}, description={node.description})"
             )
-            member_strings.append(node_str)
-        return "\n".join(member_strings)
+            subcategory_strings.append(node_str)
+        return "\n".join(subcategory_strings)
