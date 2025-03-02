@@ -1,39 +1,25 @@
 from __future__ import annotations
-from abc import ABC, abstractmethod
+from dataclasses import dataclass
+from dataclasses import field
+from abc import ABC
+from abc import abstractmethod
+from typing import Any
+from typing import Optional
 from typing import TypeVar
 from typing import Generic
-from typing import Optional
-from typing import Any
-from typing import Iterator
-from dataclasses import dataclass
-from src.shared.domain.contracts import ValueObjectT
 from src.shared.domain.validation.category_validations import CategoryValidator
-from src.shared.domain.enums import ValueType
 
 EntityT = TypeVar("EntityT", bound="Entity")
+CategoryT = TypeVar("CategoryT", bound="Category")
+CategoryComponentT = TypeVar("CategoryComponentT", bound="CategoryComponent")
 
-class ValueObject(Generic[ValueObjectT]):
-    def __init__(self, value: ValueObjectT) -> None:
-        self._value = value
+@dataclass
+class Entity:
+    _uuid: str
 
     @property
-    def value(self) -> ValueObjectT:
-        return self._value
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, self.__class__):
-            return False
-        return self.value == other.value
-
-    def __hash__(self) -> int:
-        return hash(self.value)
-
-    def __str__(self) -> str:
-        return f"{self.__class__.__name__}(value={self.value})"
-
-class Entity:
-    def __init__(self, uuid: str) -> None:
-        self.uuid = uuid
+    def uuid(self) -> str:
+        return self._uuid
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, self.__class__):
@@ -43,80 +29,43 @@ class Entity:
     def __hash__(self) -> int:
         return hash(self.uuid)
 
-    def __str__(self) -> str:
-        return f"{self.__class__.__name__}(uuid={self.uuid})"
-
-class Category(ABC, Entity, Generic[EntityT]):
-    def __init__(self, uuid: str, name: str, description: Optional[str] = None) -> None:
-        super().__init__(uuid=uuid)
-        self.name = name
-        self.description = description
-        self.members: list[EntityT] = []
-        self.parent: Optional[Category[EntityT]] = None
-        self.subcategories: list[Category[EntityT]] = []
-        self.depth = 0
-        self.validator = self.create_category_validator()
+@dataclass(eq=False)
+class Category(Entity, ABC, Generic[EntityT]):
+    name: str
+    description: Optional[str] = None
+    members: list[EntityT] = field(default_factory=list)
 
     @abstractmethod
-    def create_category_validator(self) -> CategoryValidator:
+    def _add(self, member: EntityT) -> None:
         pass
 
-    def add_subcategory(
-            self,
-            uuid: str,
-            name: str,
-            description: Optional[str] = None
-            ) -> Category[EntityT]:
+    def add(self, member: EntityT) -> None:
+        self._add(member)
 
-        subcategory = self.__class__(uuid=uuid, name=name, description=description)
-        subcategory.parent = self
-        subcategory.depth = self.depth + 1
-        self.subcategories.append(subcategory)
-        return subcategory
+@dataclass(eq=False)
+class CategoryComposite(Category, ABC, Generic[CategoryT]):
+    parent: Optional[CategoryT] = None
+    sub_categories: list[CategoryComposite[CategoryT]] = field(default_factory=list)
+    depth: int = 0
 
-    def add_member(self, entity: EntityT) -> None:
-        self.validator.validate_category_member_type(entity)
-        self.members.append(entity)
+    @abstractmethod
+    def _add(self, sub_category: CategoryComposite[CategoryT]) -> None:
+        pass
 
-    def dfs(self) -> Iterator[Category[EntityT]]:
-        yield self
-        for subcategory in self.subcategories:
-            yield from subcategory.dfs()
+    def add(self, sub_category: CategoryComposite[CategoryT]) -> None:
+        self._add(sub_category)
 
-    def __str__(self) -> str:
-        subcategory_strings = []
-        for node in self.dfs():
-            indent = " " * node.depth
-            node_str = (
-                f"{indent}{self.__class__.__name__}("
-                f"name={node.name}, uuid={node.uuid}, description={node.description})"
-            )
-            subcategory_strings.append(node_str)
-        return "\n".join(subcategory_strings)
+@dataclass(eq=False)
+class CategoryComponent(Category, Generic[CategoryT]):
+    category: CategoryT
+    parent: Optional[CategoryT] = None
+    depth: int = 0
 
-@dataclass
-class CharacteristicSpecificationFields:
-    is_unique: bool = False
-    configurable: bool = True
-    cardinality: tuple[int, int] = (1, 1)
-    value_type: ValueType = ValueType.STRING
+@dataclass(eq=False)
+class CategoryComposite(CategoryComponent, Generic[CategoryComponentT]):
+    children: list[CategoryComponentT] = field(default_factory=list)
 
-class CharacteristicSpecification(Entity):
-    def __init__(
-            self,
-            uuid: str,
-            name: str,
-            fields: CharacteristicSpecificationFields,
-            description: Optional[str] = None,
-            ) -> None:
-
-        super().__init__(uuid=uuid)
-        self.name = name
-        self.description = description
-        self.fields = fields
-
-    def __str__(self) -> str:
-        return (
-            f"{self.__class__.__name__}(name={self.name}, "
-            f"description={self.description}, fields={self.fields}), "
-            )
+    def add(self, component: CategoryComposite[CategoryComponentT]) -> None:
+        component.parent = self
+        component.depth = self.depth + 1
+        self.children.append(component)
