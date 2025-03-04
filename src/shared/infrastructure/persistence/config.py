@@ -1,8 +1,8 @@
 import configparser
 import os
 from dotenv import load_dotenv
-from src.shared.exceptions.config_exceptions import ConfigSectionNotFound
-from src.shared.exceptions.config_exceptions import DatabaseURISchemeNotFound
+from src.shared.infrastructure.exceptions import ConfigSectionNotFound
+from src.shared.infrastructure.exceptions import DatabaseURISchemeNotFound
 
 load_dotenv()
 
