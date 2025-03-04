@@ -1,11 +1,12 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Any, Callable, TypeVar
+from typing import TypeVar, Generic
+from typing import Any, Callable
 
 T = TypeVar("T")
 
-class Specification(ABC):
+class Specification(ABC, Generic[T]):
     """Base class for all specifications."""
 
     @abstractmethod

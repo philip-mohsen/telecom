@@ -17,10 +17,10 @@ class CategoryService(ABC):
     @classmethod
     def get_constructor_specification(cls) -> dict[str, Specification[Any]]:
         return {
-            "uuid": TypeSpecification(str),
-            "name": TypeSpecification(str),
-            "description": TypeSpecification(str, allow_none=True),
-            "members": TypeSpecification(tuple)
+            "uuid": TypeSpecification((str,)),
+            "name": TypeSpecification((str,)),
+            "description": TypeSpecification((str,), allow_none=True),
+            "members": TypeSpecification((tuple,))
         }
 
     def create_category(self, **kwargs) -> Category[EntityT]:
@@ -32,7 +32,7 @@ class CategoryService(ABC):
         return Category(**kwargs)
 
     def add_member(self, category: Category[EntityT], member: EntityT) -> Category[EntityT]:
-        member_specification = self.get_member_specification()
+        member_specification: Specification[EntityT] = self.get_member_specification()
         if not member_specification(member):
             raise ValueError("Invalid member")
 
