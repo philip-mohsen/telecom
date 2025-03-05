@@ -1,3 +1,4 @@
+import inspect
 from dataclasses import dataclass
 from abc import ABC, abstractmethod
 from typing import Any, Optional, Sequence
@@ -24,13 +25,8 @@ class CategoryService(ABC):
             "uuid": TypeSpecification((str,)),
             "name": TypeSpecification((str,)),
             "description": TypeSpecification((str,), allow_none=True),
-            "members": TypeSpecification((tuple,)) and UniqueSpecification()
+            "members": TypeSpecification((tuple,)) & UniqueSpecification()
         }
-
-    def validate_constructor_attribute(self, attribute_name: str, value: Any) -> None:
-        specification = self.get_constructor_specification().get(attribute_name)
-        if not specification(value):
-            raise ValueError(f"Invalid value for {attribute_name}")
 
     def create_category(
             self,
@@ -38,23 +34,37 @@ class CategoryService(ABC):
             name: str,
             description: Optional[str],
             members: Sequence[EntityT] = ()
-            ) -> Category[EntityT]:
+    ) -> Category[EntityT]:
+        constructor_specification = self.get_constructor_specification()
+        signature = inspect.signature(Category.__init__)
+        kwargs = dict(uuid=uuid, name=name, description=description, members=members)
 
-        self.validate_constructor_attribute("uuid", uuid)
-        self.validate_constructor_attribute("name", name)
-        self.validate_constructor_attribute("description", description)
-        self.validate_constructor_attribute("members", members)
+        for name in signature.parameters.keys():
+            if name == "self":
+                continue
+
+            if name not in constructor_specification:
+                continue
+
+            value = kwargs[name]
+            validation = constructor_specification[name](value)
+
+            if not validation.is_valid:
+                raise ValueError(f"Invalid value for {name}: {validation.error_message}")
 
         return Category(uuid=uuid, name=name, description=description, members=members)
 
     def add_member(self, category: Category[EntityT], member: EntityT) -> Category[EntityT]:
-        member_specification = self.get_member_specification()
+        member_specification: Specification[EntityT] = self.get_member_specification()
         members_unique_specification = UniqueSpecification()
 
-        if not member_specification(member):
-            raise ValueError("Invalid member")
+        member_specification_result = member_specification(member)
+        members_unique_specification_result = members_unique_specification(tuple(category.members) + (member,))
 
-        if not members_unique_specification(category.members + (member,)):
-            raise ValueError("Member already exists")
+        if not member_specification_result.is_valid:
+            raise ValueError("Invalid member type: " + member_specification_result.error_message)
+
+        if not members_unique_specification_result.is_valid:
+            raise ValueError("Member already exists in category")
 
         return category.add_member(member)
