@@ -24,4 +24,8 @@ class ValidationError:
         return ValidationError(
             is_valid=not self.is_valid,
             error_messages=tuple(reversed(["NOT " + message for message in self.error_messages]))
-            )
+        )
+
+    @property
+    def error_message(self) -> str:
+        return ", ".join(self.error_messages)
