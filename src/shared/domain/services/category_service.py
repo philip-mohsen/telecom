@@ -24,7 +24,7 @@ class CategoryService(ABC):
         return {
             "uuid": TypeSpecification((str,)),
             "name": TypeSpecification((str,)),
-            "description": TypeSpecification((str,), allow_none=True),
+            "description": TypeSpecification((str, None,)),
             "members": TypeSpecification((tuple,)) & UniqueSpecification()
         }
 
